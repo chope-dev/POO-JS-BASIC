@@ -1,3 +1,71 @@
+function videoPlay(id) {
+    const urlSecreta = "https://platziultrasecretomasquelanasa.com/" + id;
+    console.log("Se está reproduciendo desde la url " + urlSecreta);
+}
+function videoStop(id) {
+    const urlSecreta = "https://platziultrasecretomasquelanasa.com/" + id;
+    console.log("Pausamos la url " + urlSecreta);
+}
+
+/* export */ class PlatziClass {
+    constructor({
+    name,
+    videoID,
+    }) {
+    this.name = name;
+    this.videoID = videoID;
+    }
+
+    reproducir() {
+    videoPlay(this.videoID);
+    }
+    pausar() {
+    videoStop(this.videoID);
+    }
+}
+
+
+
+
+class Course {
+    constructor({
+    name,
+    classes = [],
+    isFree = false,
+    lang = "spanish",
+    }) {
+    this._name = name;
+    this.classes = classes;
+    this.isFree = isFree;
+    this.lang = lang;
+    }
+
+    get name() {
+    return this._name;
+    }
+
+    set name(nuevoNombrecito) {
+    if (nuevoNombrecito === "Curso Malito de Programación Básica") {
+        console.error("Web... no");
+    } else {
+        this._name = nuevoNombrecito;
+    }
+    }
+}
+
+const cursoProgBasica = new Course({
+    name: "Curso Gratis de Programación Básica",
+    isFree: true,
+});
+
+const cursoDefinitivoHTML = new Course({
+    name: "Curso Definitivo de HTML y CSS",
+});
+const cursoPracticoHTML = new Course({
+    name: "Curso Practico de HTML y CSS",
+    lang: "english",
+});
+
 class LearningPath {
     constructor({
         id,
@@ -13,9 +81,30 @@ class LearningPath {
     }
 }
 
-const escuelaWeb = new LearningPath();
-const escuelaData = new LearningPath();
-const escuelaVgs = new LearningPath();
+const escuelaWeb = new LearningPath({
+    name: "Escuela de Desarrollo Web",
+    courses: [
+        "Programación Básica",
+        "Curso Definitivo de HTML y CSS",
+        "Curso Práctico de HTML y CSS",
+    ],
+});
+const escuelaData = new LearningPath({
+    name: "Escuela de Data Science",
+    courses: [
+        "Programación Básica",
+        "Curso DataBusiness",
+        "Curso Dataviz",
+    ],
+});
+const escuelaVgs = new LearningPath({
+    name: "Escuela de Videojuegos",
+    courses: [
+        "Programación Básica",
+        "Curso de Unity ",
+        "Curso de Unreal ",
+    ],
+});
 
 class Student {
 constructor({
@@ -39,6 +128,44 @@ constructor({
     this.approvedCourses = approvedCourses;
     this.learningPaths = learningPaths;
 }
+}
+
+class FreeStudent extends Student {
+    constructor(props) {
+    super(props);
+    }
+
+    approveCourse(newCourse) {
+    if (newCourse.isFree) {
+        this.approvedCourses.push(newCourse);
+    } else {
+        console.warn("Lo sentimos, " + this.name + ", solo puedes tomar cursos abiertos");
+    }
+    }
+}
+
+class BasicStudent extends Student {
+    constructor(props) {
+    super(props);
+    }
+
+    approveCourse(newCourse) {
+    if (newCourse.lang !== "english") {
+        this.approvedCourses.push(newCourse);
+    } else {
+        console.warn("Lo sentimos, " + this.name + ", no puedes tomar cursos en inglés");
+    }
+    }
+}
+
+class ExpertStudent extends Student {
+    constructor(props) {
+    super(props);
+    }
+
+    approveCourse(newCourse) {
+    this.approvedCourses.push(newCourse);
+    }
 }
 
 const juan2 = new Student({

@@ -60,3 +60,4 @@ const miguelito = new Student2({
     age: 28,
     email: "miguelito@platzi.com",
 });
+//as
